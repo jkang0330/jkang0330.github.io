@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work — Jie Kang</title>
+  <meta property="og:title" content="Jie Kang — Web Design Work">
+  <meta property="og:description" content="A curated collection of freelance and client-focused website projects.">
+  <meta property="og:image" content="https://itsjenniferkang.com/work/images/preview.png">
+  <meta property="og:url" content="https://itsjenniferkang.com/work">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --ink: #111110;
+      --paper: #F2F0EB;
+      --muted: #888884;
+      --rule: #D8D5CE;
+      --card-bg: #ECEAE4;
+      --yellow: #E8D44D;
+
+      --font-head: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+
+      --border: 2px solid var(--ink);
+      --shadow: 4px 4px 0px var(--ink);
+      --shadow-sm: 3px 3px 0px var(--ink);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR ─────────────────────────────────────────────── */
+    .cur {
+      position: fixed;
+      top: 0; left: 0;
+      width: 12px; height: 12px;
+      background: var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .18s, height .18s, background .18s, border-radius .18s;
+    }
+    .cur.hov {
+      width: 38px; height: 38px;
+      background: var(--yellow);
+      border-radius: 0;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      border-bottom: var(--border);
+      background: var(--paper);
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────── */
+    .page-hdr {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      border-bottom: var(--border);
+      min-height: 220px;
+    }
+
+    .hdr-side {
+      padding: 52px 36px;
+      border-right: var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .sec-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sec-lbl::before {
+      content: '';
+      width: 20px; height: 2px;
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .hdr-count {
+      font-family: var(--font-head);
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(17,17,16,0.06);
+      letter-spacing: 0.01em;
+    }
+
+    .hdr-body {
+      padding: 52px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .title-outline {
+      -webkit-text-stroke: 2px var(--ink);
+      color: transparent;
+    }
+
+    .title-mark {
+      background: var(--yellow);
+      padding: 0 6px;
+    }
+
+    .page-desc {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 480px;
+      font-weight: 400;
+    }
+
+    /* ─── FILTER BAR ─────────────────────────────────────────── */
+    .filter-bar {
+      border-bottom: var(--border);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .filter-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 20px 0;
+      margin-right: 28px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      border-left: 1px solid var(--rule);
+      padding: 20px 24px;
+      cursor: none;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      color: var(--ink);
+      background: var(--yellow);
+    }
+    .filter-btn.active {
+      font-weight: 500;
+    }
+
+    /* ─── GRID ───────────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-bottom: var(--border);
+    }
+
+    /* ─── PROJECT CARD ───────────────────────────────────────── */
+    .project-card {
+      border-right: var(--border);
+      border-bottom: var(--border);
+      display: flex;
+      flex-direction: column;
+      transition: background .22s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* remove right border on every 2nd card */
+    .project-card:nth-child(2n) {
+      border-right: none;
+    }
+
+    /* remove bottom border on last row */
+    .project-card:nth-last-child(-n+2):not(:nth-child(2n)) ~ .project-card,
+    .project-card:last-child,
+    .project-card:nth-last-child(2):nth-child(odd) {
+      border-bottom: none;
+    }
+
+    .project-card:hover {
+      background: var(--card-bg);
+    }
+
+    /* image area */
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--rule);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      padding: 20px;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border: 1px solid var(--rule);
+      transition: transform .5s cubic-bezier(.22,1,.36,1);
+    }
+
+    .project-card:hover .card-img img {
+      transform: scale(1.04);
+    }
+
+    /* placeholder when no image */
+    .card-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card-bg);
+    }
+
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 6px;
+      width: 80%;
+      height: 70%;
+      opacity: 0.25;
+    }
+
+    .placeholder-grid span {
+      background: var(--ink);
+      border-radius: 2px;
+    }
+
+    .placeholder-grid span:nth-child(1) { grid-column: 1/4; }
+    .placeholder-grid span:nth-child(2) { grid-column: 4/6; }
+    .placeholder-grid span:nth-child(3) { grid-column: 1/2; }
+    .placeholder-grid span:nth-child(4) { grid-column: 2/5; }
+    .placeholder-grid span:nth-child(5) { grid-column: 5/6; }
+    .placeholder-grid span:nth-child(6) { grid-column: 1/3; }
+    .placeholder-grid span:nth-child(7) { grid-column: 3/6; }
+
+    /* card body */
+    .card-body {
+      padding: 32px 36px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-type {
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 5px 10px;
+      border: 1px solid var(--rule);
+    }
+
+    .card-year {
+      font-family: var(--font-mono);
+      font-size: 0.56rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.0;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      line-height: 1.75;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.53rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink);
+      padding: 4px 9px;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+    }
+
+    .card-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--paper);
+      background: var(--ink);
+      border: var(--border);
+      padding: 9px 18px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .15s, transform .15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .card-link:hover {
+      box-shadow: none;
+      transform: translate(3px, 3px);
+    }
+
+    .card-link.disabled {
+      opacity: 0.38;
+      pointer-events: none;
+    }
+
+    /* ─── EMPTY STATE ────────────────────────────────────────── */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 100px 48px;
+      text-align: center;
+      display: none;
+    }
+
+    .empty-state.visible { display: block; }
+
+    .empty-msg {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: rgba(17,17,16,0.12);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .f-copy {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(242,240,235,0.28);
+    }
+
+    .f-logo {
+      font-family: var(--font-head);
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: rgba(242,240,235,0.07);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .f-email {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+      color: rgba(242,240,235,0.4);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .f-email:hover { color: var(--yellow); }
+
+    /* ─── REVEAL ─────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.d1 { transition-delay: .08s }
+    .reveal.d2 { transition-delay: .16s }
+    .reveal.d3 { transition-delay: .24s }
+    .reveal.d4 { transition-delay: .32s }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media(max-width: 900px) {
+      nav { padding: 0 24px; }
+      .page-hdr { grid-template-columns: 1fr; }
+      .hdr-side {
+        border-right: none;
+        border-bottom: var(--border);
+        flex-direction: row;
+        align-items: center;
+        padding: 24px;
+        gap: 16px;
+        min-height: unset;
+      }
+      .hdr-count { font-size: 3rem; }
+      .hdr-body { padding: 36px 24px; }
+      .filter-bar { padding: 0 24px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card { border-right: none !important; }
+      .project-card:not(:last-child) { border-bottom: var(--border) !important; }
+      .card-body { padding: 24px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+    }
+  </style>
+</head>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+
+<body>
+
+  <div class="cur" id="cur"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Jie Kang</a>
+    <span class="nav-tag">Selected Web Design Work</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-hdr">
+    <div class="hdr-side">
+      <div class="sec-lbl">Work</div>
+      <div class="hdr-count" id="project-count">03</div>
+    </div>
+    <div class="hdr-body">
+      <h1 class="page-title">
+        Selected<br>
+        <span class="title-outline">Design</span>
+        <span class="title-mark">Projects.</span>
+      </h1>
+      <p class="page-desc">
+        A curated collection of freelance and client-focused website projects — 
+        from e-commerce storefronts to editorial portfolios.
+      </p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter by:</span>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="e-commerce">E-Commerce</button>
+    <button class="filter-btn" data-filter="portfolio">Portfolio</button>
+    <button class="filter-btn" data-filter="creative">Creatives</button>
+    <button class="filter-btn" data-filter="small-business">Small Business</button>
+  </div>
+  <!-- PROJECTS GRID -->
+  <div class="projects-grid" id="projects-grid">
+
+    <!-- CARD 1: BALLUN Studio -->
+    <div class="project-card reveal" data-category="e-commerce">
+      <div class="card-img">
+        <img src="images/ballun-preview.png" alt="BALLUN Studio"
+             onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-type">E-Commerce</span>
+          <span class="card-year">2026</span>
+        </div>
+        <h2 class="card-title">BALLUN Studio</h2>
+        <p class="card-desc">
+          Modern e-commerce and event styling website for a creative studio. 
+          Features a clean product showcase, booking flow, and editorial photography.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Web Design</span>
+            <span class="tag">E-Commerce</span>
+            <span class="tag">Branding</span>
+          </div>
+            <a href="https://www.ballunstudio.com/" target="_blank" class="card-link">
+            View ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2: Jinger Zhang -->
+    <div class="project-card reveal d1" data-category="portfolio">
+      <div class="card-img">
+        <img src="images/jinger-preview.png" alt="Jinger Zhang"
+             onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="card-type">Journalist</span>
+          <span class="card-year">2026</span>
+        </div>
+        <h2 class="card-title">Jinger Zhang</h2>
+        <p class="card-desc">
+          Minimal editorial portfolio for a journalist. Focused on clean typography, 
+          article archives, and an understated aesthetic that keeps content front and center.
+        </p>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Portfolio</span>
+            <span class="tag">Typography</span>
+          </div>
+          <a href="https://jingerzhang.com" target="_blank" class="card-link">
+            View ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD MORE CARDS BELOW — copy a project-card block and update content -->
+    <!-- Example placeholder card (hidden, for reference):
+    <div class="project-card" data-category="landing" style="display:none">
+      ...
+    </div>
+    -->
+    <div class="project-card reveal d3" data-category="small-business">
+  <div class="card-img">
+    <img src="images/unaspa-preview.png" alt="Una Spa NYC"
+         onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+  </div>
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="card-type">Small Business</span>
+      <span class="card-year">2026</span>
+    </div>
+    <h2 class="card-title">Una Spa NYC</h2>
+    <p class="card-desc">
+      Clean, welcoming website for a NYC spa. Focused on service listings, 
+      booking flow, and a calming aesthetic that reflects the brand.
+    </p>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">Small Business</span>
+        <span class="tag">Spa</span>
+        <span class="tag">Web Design</span>
+      </div>
+      <a href="https://unaspanyc.com" target="_blank" class="card-link">View ↗</a>
+    </div>
+  </div>
+</div>
+
+    <div class="project-card reveal d4" data-category="small-business">
+  <div class="card-img">
+    <img src="images/prontopasta-preview.png" alt="Pronto Cafe"
+         onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+  </div>
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="card-type">Small Business</span>
+      <span class="card-year">2026</span>
+    </div>
+    <h2 class="card-title">Pronto Cafe</h2>
+    <p class="card-desc">
+      Website for a Hoboken, NJ Italian restaurant known for its pasta.
+      Combines appetizing food photography with online ordering and catering info.
+    </p>
+    <div class="card-footer">
+      <div class="card-tags">
+        <span class="tag">Small Business</span>
+        <span class="tag">Restaurant</span>
+        <span class="tag">Web Design</span>
+      </div>
+      <a href="https://prontopasta.us/" target="_blank" class="card-link">View ↗</a>
+    </div>
+  </div>
+</div>
+
+    <div class="empty-state" id="empty-state">
+      <div class="empty-msg">No projects in this category yet.</div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="f-copy">© 2026 Jie Kang · itsjenniferkang.com/work</div>
+    <div class="f-logo">JK</div>
+    <a href="mailto:jenniferkang0330@gmail.com" class="f-email">jenniferkang0330@gmail.com</a>
+  </footer>
+
+  <script>
+    /* ─── CURSOR ─── */
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('hov'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('hov'));
+    });
+
+    /* ─── FILTER ─── */
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards      = document.querySelectorAll('.project-card');
+    const countEl    = document.getElementById('project-count');
+    const emptyEl    = document.getElementById('empty-state');
+
+    function updateCount(visible) {
+      countEl.textContent = String(visible).padStart(2, '0');
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        let visible = 0;
+
+        cards.forEach(card => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
+
+        emptyEl.classList.toggle('visible', visible === 0);
+        updateCount(visible);
+      });
+    });
+
+    // Init count
+    updateCount(cards.length);
+
+    /* ─── SCROLL REVEAL ─── */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
