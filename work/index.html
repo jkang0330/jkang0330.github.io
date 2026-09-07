@@ -12,26 +12,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500&display=swap"
     rel="stylesheet">
 
   <style>
     /* ─── TOKENS ─────────────────────────────────────────────── */
     :root {
-      --ink: #111110;
-      --paper: #F2F0EB;
-      --muted: #888884;
-      --rule: #D8D5CE;
-      --card-bg: #ECEAE4;
-      --yellow: #E8D44D;
+      --bg: #F2F0EA;
+      --bg-2: #E9E6DB;
+      --paper: #FAF9F4;
+      --ink: #17160F;
+      --muted: #7A7A72;
+      --rule: #E2DFD5;
+      --accent: #71893D;
 
-      --font-head: 'Barlow Condensed', sans-serif;
-      --font-body: 'Barlow', sans-serif;
+      --font-serif: 'Fraunces', serif;
       --font-mono: 'IBM Plex Mono', monospace;
 
-      --border: 2px solid var(--ink);
-      --shadow: 4px 4px 0px var(--ink);
-      --shadow-sm: 3px 3px 0px var(--ink);
+      --shadow-card: 0 18px 40px rgba(23,22,15,.18);
+      --shadow-card-hover: 0 30px 60px rgba(23,22,15,.28);
     }
 
     *, *::before, *::after {
@@ -43,385 +42,262 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: var(--font-body);
-      background: var(--paper);
+      font-family: var(--font-mono);
+      background:
+        radial-gradient(ellipse 900px 500px at 20% 0%, var(--bg-2), transparent 60%),
+        var(--bg);
       color: var(--ink);
       overflow-x: hidden;
       cursor: none;
+      min-height: 100vh;
     }
 
     /* ─── CURSOR ─────────────────────────────────────────────── */
     .cur {
       position: fixed;
       top: 0; left: 0;
-      width: 12px; height: 12px;
+      width: 10px; height: 10px;
       background: var(--ink);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width .18s, height .18s, background .18s, border-radius .18s;
+      transition: width .18s, height .18s, background .18s, border-radius .18s,
+                  box-shadow .18s, border .18s, backdrop-filter .18s;
     }
     .cur.hov {
-      width: 38px; height: 38px;
-      background: var(--yellow);
-      border-radius: 0;
+      width: 46px; height: 46px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(113,137,61,0.2) 35%, rgba(255,255,255,0.55) 65%, rgba(113,137,61,0.35) 100%);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: 34% 66% 62% 38% / 42% 34% 66% 58%;
+      backdrop-filter: blur(6px) saturate(180%);
+      -webkit-backdrop-filter: blur(6px) saturate(180%);
+      box-shadow:
+        0 8px 24px rgba(113,137,61,0.32),
+        inset -5px -5px 12px rgba(113,137,61,0.22),
+        inset 4px 4px 10px rgba(255,255,255,0.75);
+      animation: crystal-spin 5s linear infinite;
     }
 
-    /* ─── NAV ────────────────────────────────────────────────── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 64px;
-      border-bottom: var(--border);
-      background: var(--paper);
+    @keyframes crystal-spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to   { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
-    .nav-logo {
-      font-family: var(--font-head);
-      font-weight: 900;
-      font-size: 1.3rem;
-      letter-spacing: 0.05em;
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      padding: 64px 64px 40px;
+    }
+
+    .eyebrow {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      text-decoration: none;
       color: var(--ink);
+      margin-bottom: 28px;
     }
 
-    .nav-tag {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* ─── HEADER ─────────────────────────────────────────────── */
-    .page-hdr {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      border-bottom: var(--border);
-      min-height: 220px;
-    }
-
-    .hdr-side {
-      padding: 52px 36px;
-      border-right: var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .sec-lbl {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .hero-top {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 12px;
-    }
-    .sec-lbl::before {
-      content: '';
-      width: 20px; height: 2px;
-      background: var(--ink);
-      flex-shrink: 0;
+      margin-bottom: 28px;
     }
 
-    .hdr-count {
-      font-family: var(--font-head);
-      font-size: 5rem;
-      font-weight: 900;
-      line-height: 1;
-      color: rgba(17,17,16,0.06);
-      letter-spacing: 0.01em;
+    .hero-top .eyebrow {
+      margin-bottom: 0;
     }
 
-    .hdr-body {
-      padding: 52px 64px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .page-title {
-      font-family: var(--font-head);
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      font-weight: 900;
-      line-height: 0.92;
-      letter-spacing: 0.01em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-    }
-
-    .title-outline {
-      -webkit-text-stroke: 2px var(--ink);
-      color: transparent;
-    }
-
-    .title-mark {
-      background: var(--yellow);
-      padding: 0 6px;
-    }
-
-    .page-desc {
-      font-size: 0.88rem;
-      line-height: 1.8;
-      color: var(--muted);
-      max-width: 480px;
-      font-weight: 400;
-    }
-
-    /* ─── FILTER BAR ─────────────────────────────────────────── */
-    .filter-bar {
-      border-bottom: var(--border);
-      padding: 0 48px;
-      display: flex;
+    .hero-connect {
+      display: inline-flex;
       align-items: center;
-      gap: 0;
-      overflow-x: auto;
-    }
-
-    .filter-label {
+      gap: 6px;
       font-family: var(--font-mono);
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 20px 0;
-      margin-right: 28px;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
+      font-size: 0.62rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: none;
-      border-left: 1px solid var(--rule);
-      padding: 20px 24px;
-      cursor: none;
-      transition: color .15s, background .15s;
-      white-space: nowrap;
-    }
-    .filter-btn:hover, .filter-btn.active {
       color: var(--ink);
-      background: var(--yellow);
-    }
-    .filter-btn.active {
-      font-weight: 500;
+      text-decoration: none;
     }
 
-    /* ─── GRID ───────────────────────────────────────────────── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      border-bottom: var(--border);
+    .hero-connect-arr {
+      display: inline-block;
+      transition: transform .2s;
     }
 
-    /* ─── PROJECT CARD ───────────────────────────────────────── */
-    .project-card {
-      border-right: var(--border);
-      border-bottom: var(--border);
+    .hero-connect:hover .hero-connect-arr {
+      transform: translate(2px, -2px);
+    }
+
+    .hero-name {
+      line-height: 0.82;
+    }
+
+    .name-serif,
+    .name-script {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .name-serif {
+      font-size: clamp(4.5rem, 11vw, 9rem);
+    }
+
+    .name-script {
+      font-size: clamp(5.5rem, 13.5vw, 11rem);
+      margin-top: -0.08em;
+      margin-left: 0.05em;
+    }
+
+    .hero-sub {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 56px;
+      padding-top: 20px;
+    }
+
+    .sub-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .sub-hint {
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    /* ─── DECK GALLERY ───────────────────────────────────────── */
+    .deck-gallery {
+      display: flex;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      padding: 60px 64px 140px;
+      perspective: 1400px;
+    }
+
+    .deck-card {
+      position: relative;
+      width: 300px;
+      margin-left: -70px;
       display: flex;
       flex-direction: column;
-      transition: background .22s;
-      position: relative;
+      background: var(--paper);
+      text-decoration: none;
+      cursor: none;
+      border-radius: 3px;
       overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transform: rotate(var(--rot, 0deg)) translateY(var(--ty, 0px));
+      transform-origin: center bottom;
+      transform-style: preserve-3d;
+      will-change: transform;
+      z-index: var(--z, 1);
     }
 
-    /* remove right border on every 2nd card */
-    .project-card:nth-child(2n) {
-      border-right: none;
+    .deck-card:first-child {
+      margin-left: 0;
     }
 
-    /* remove bottom border on last row */
-    .project-card:nth-last-child(-n+2):not(:nth-child(2n)) ~ .project-card,
-    .project-card:last-child,
-    .project-card:nth-last-child(2):nth-child(odd) {
-      border-bottom: none;
+    .deck-card-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.55), transparent 55%);
+      opacity: 0;
+      mix-blend-mode: overlay;
     }
 
-    .project-card:hover {
-      background: var(--card-bg);
+    .deck-card-chrome {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      background: #E7E4DC;
     }
 
-    /* image area */
-    .card-img {
+    .deck-card-chrome span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #C7C3B6;
+    }
+
+    .deck-card-img {
+      position: relative;
       width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--rule);
+      aspect-ratio: 4/3;
       overflow: hidden;
-      position: relative;
-      flex-shrink: 0;
-      padding: 20px;
+      background: var(--rule);
     }
 
-    .card-img img {
+    .deck-card-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: top;
       display: block;
-      border: 1px solid var(--rule);
-      transition: transform .5s cubic-bezier(.22,1,.36,1);
     }
 
-    .project-card:hover .card-img img {
-      transform: scale(1.04);
+    .deck-card-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 400%;
+      height: 400%;
+      border: 0;
+      background: #fff;
+      transform: scale(0.25);
+      transform-origin: top left;
+      pointer-events: none;
     }
 
-    /* placeholder when no image */
-    .card-img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--card-bg);
-    }
-
-    .placeholder-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 6px;
-      width: 80%;
-      height: 70%;
-      opacity: 0.25;
-    }
-
-    .placeholder-grid span {
-      background: var(--ink);
-      border-radius: 2px;
-    }
-
-    .placeholder-grid span:nth-child(1) { grid-column: 1/4; }
-    .placeholder-grid span:nth-child(2) { grid-column: 4/6; }
-    .placeholder-grid span:nth-child(3) { grid-column: 1/2; }
-    .placeholder-grid span:nth-child(4) { grid-column: 2/5; }
-    .placeholder-grid span:nth-child(5) { grid-column: 5/6; }
-    .placeholder-grid span:nth-child(6) { grid-column: 1/3; }
-    .placeholder-grid span:nth-child(7) { grid-column: 3/6; }
-
-    /* card body */
-    .card-body {
-      padding: 32px 36px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-meta {
+    .deck-card-cap {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .card-type {
-      font-family: var(--font-mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 5px 10px;
-      border: 1px solid var(--rule);
-    }
-
-    .card-year {
-      font-family: var(--font-mono);
-      font-size: 0.56rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .card-title {
-      font-family: var(--font-head);
-      font-size: 1.9rem;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      line-height: 1.0;
-      margin-bottom: 12px;
-    }
-
-    .card-desc {
-      font-size: 0.8rem;
-      line-height: 1.75;
-      color: var(--muted);
-      font-weight: 400;
-      margin-bottom: 28px;
-      flex: 1;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 20px;
+      gap: 10px;
+      padding: 16px 18px;
       border-top: 1px solid var(--rule);
     }
 
-    .card-tags {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      font-family: var(--font-mono);
-      font-size: 0.53rem;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
+    .deck-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
       color: var(--ink);
-      padding: 4px 9px;
-      border: 1px solid var(--rule);
-      background: var(--paper);
+      white-space: nowrap;
     }
 
-    .card-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .deck-card-index {
       font-family: var(--font-mono);
       font-size: 0.6rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      text-decoration: none;
-      color: var(--paper);
-      background: var(--ink);
-      border: var(--border);
-      padding: 9px 18px;
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow .15s, transform .15s;
+      color: var(--muted);
+      text-align: right;
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
-    .card-link:hover {
-      box-shadow: none;
-      transform: translate(3px, 3px);
-    }
-
-    .card-link.disabled {
-      opacity: 0.38;
-      pointer-events: none;
+    .deck-card-index .visit {
+      display: block;
+      color: var(--ink);
     }
 
     /* ─── EMPTY STATE ────────────────────────────────────────── */
     .empty-state {
-      grid-column: 1 / -1;
+      width: 100%;
       padding: 100px 48px;
       text-align: center;
       display: none;
@@ -430,50 +306,84 @@
     .empty-state.visible { display: block; }
 
     .empty-msg {
-      font-family: var(--font-head);
+      font-family: var(--font-serif);
       font-size: 2rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: rgba(17,17,16,0.12);
-      letter-spacing: 0.05em;
+      font-style: italic;
+      color: rgba(23,22,15,0.25);
     }
 
     /* ─── FOOTER ─────────────────────────────────────────────── */
     footer {
-      background: var(--ink);
-      padding: 28px 48px;
+      padding: 0 64px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 0 64px 48px;
     }
 
     .f-copy {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.6rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgba(242,240,235,0.28);
+      color: rgba(23,22,15,0.35);
     }
 
-    .f-logo {
-      font-family: var(--font-head);
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: rgba(242,240,235,0.07);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+    .f-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
     .f-email {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
+      font-size: 0.6rem;
       letter-spacing: 0.06em;
-      color: rgba(242,240,235,0.4);
+      color: var(--muted);
       text-decoration: none;
       transition: color .2s;
     }
 
-    .f-email:hover { color: var(--yellow); }
+    .f-email:hover { color: var(--accent); }
+
+    .f-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border: 1px solid rgba(23,22,15,0.16);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background .2s, border-color .2s, color .2s, transform .2s;
+    }
+
+    .f-pill svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .f-pill-arr {
+      font-size: 0.8rem;
+      transition: transform .2s;
+    }
+
+    .f-pill:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--paper);
+      transform: translateY(-2px);
+    }
+
+    .f-pill:hover .f-pill-arr {
+      transform: translate(2px, -2px);
+    }
 
     /* ─── REVEAL ─────────────────────────────────────────────── */
     .reveal {
@@ -481,33 +391,15 @@
       transform: translateY(24px);
       transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1);
     }
-    .reveal.d1 { transition-delay: .08s }
-    .reveal.d2 { transition-delay: .16s }
-    .reveal.d3 { transition-delay: .24s }
-    .reveal.d4 { transition-delay: .32s }
     .reveal.in { opacity: 1; transform: none; }
 
     /* ─── RESPONSIVE ─────────────────────────────────────────── */
     @media(max-width: 900px) {
-      nav { padding: 0 24px; }
-      .page-hdr { grid-template-columns: 1fr; }
-      .hdr-side {
-        border-right: none;
-        border-bottom: var(--border);
-        flex-direction: row;
-        align-items: center;
-        padding: 24px;
-        gap: 16px;
-        min-height: unset;
-      }
-      .hdr-count { font-size: 3rem; }
-      .hdr-body { padding: 36px 24px; }
-      .filter-bar { padding: 0 24px; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .project-card { border-right: none !important; }
-      .project-card:not(:last-child) { border-bottom: var(--border) !important; }
-      .card-body { padding: 24px; }
-      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+      .hero { padding: 40px 24px 24px; }
+      .deck-gallery { padding: 40px 24px 100px; }
+      .deck-card { width: 200px; margin-left: -45px; }
+      .deck-card-title { font-size: 1rem; }
+      footer { margin: 0 24px 32px; padding-top: 20px; flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -517,157 +409,88 @@
 
   <div class="cur" id="cur"></div>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-logo" href="#">Jie Kang</a>
-    <span class="nav-tag">Selected Web Design Work</span>
-  </nav>
+  <!-- HERO -->
+  <header class="hero reveal">
+    <div class="hero-top">
+      <span class="eyebrow">Independent Web Developer</span>
+      <a href="#contact" class="hero-connect">Let's Connect <span class="hero-connect-arr">↗</span></a>
+    </div>
+    <h1 class="hero-name">
+      <span class="name-serif">Jie</span>
+      <span class="name-script">Kang</span>
+    </h1>
+    <div class="hero-sub">
+      <span class="sub-label">Selected Projects</span>
+    </div>
+  </header>
 
-  <!-- PAGE HEADER -->
-  <div class="page-hdr">
-    <div class="hdr-side">
-      <div class="sec-lbl">Work</div>
-      <div class="hdr-count" id="project-count">03</div>
-    </div>
-    <div class="hdr-body">
-      <h1 class="page-title">
-        Selected<br>
-        <span class="title-outline">Design</span>
-        <span class="title-mark">Projects.</span>
-      </h1>
-      <p class="page-desc">
-        A curated collection of freelance and client-focused website projects — 
-        from e-commerce storefronts to editorial portfolios.
-      </p>
-    </div>
-  </div>
+  <!-- DECK GALLERY -->
+  <div class="deck-gallery reveal" id="projects-grid">
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <span class="filter-label">Filter by:</span>
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="e-commerce">E-Commerce</button>
-    <button class="filter-btn" data-filter="portfolio">Portfolio</button>
-    <button class="filter-btn" data-filter="creative">Creatives</button>
-    <button class="filter-btn" data-filter="small-business">Small Business</button>
-  </div>
-  <!-- PROJECTS GRID -->
-  <div class="projects-grid" id="projects-grid">
+    <!-- CARD 1: Una Spa NYC -->
+    <a class="deck-card" data-category="small-business" href="https://unaspanyc.com" target="_blank" aria-label="View Una Spa NYC">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <div class="deck-card-img">
+        <img src="images/unaspa-preview.png" alt="Una Spa NYC">
+      </div>
+      <div class="deck-card-cap">
+        <span class="deck-card-title">Una Spa NYC</span>
+        <span class="deck-card-index">01 / <span class="visit">Visit ↗</span></span>
+      </div>
+      <div class="deck-card-glare"></div>
+    </a>
 
-    <!-- CARD 1: BALLUN Studio -->
-    <div class="project-card reveal" data-category="e-commerce">
-      <div class="card-img">
-        <img src="images/ballun-preview.png" alt="BALLUN Studio"
-             onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+    <!-- CARD 2: Pronto Cafe -->
+    <a class="deck-card" data-category="small-business" href="https://prontopasta.us/" target="_blank" aria-label="View Pronto Cafe">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <div class="deck-card-img">
+        <iframe class="deck-card-iframe" src="https://prontopasta.us/" title="Live preview of Pronto Cafe" loading="lazy" tabindex="-1"></iframe>
       </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-type">E-Commerce</span>
-          <span class="card-year">2026</span>
-        </div>
-        <h2 class="card-title">BALLUN Studio</h2>
-        <p class="card-desc">
-          Modern e-commerce and event styling website for a creative studio. 
-          Features a clean product showcase, booking flow, and editorial photography.
-        </p>
-        <div class="card-footer">
-          <div class="card-tags">
-            <span class="tag">Web Design</span>
-            <span class="tag">E-Commerce</span>
-            <span class="tag">Branding</span>
-          </div>
-            <a href="https://www.ballunstudio.com/" target="_blank" class="card-link">
-            View ↗
-          </a>
-        </div>
+      <div class="deck-card-cap">
+        <span class="deck-card-title">Pronto Pasta</span>
+        <span class="deck-card-index">02 / <span class="visit">Visit ↗</span></span>
       </div>
-    </div>
+      <div class="deck-card-glare"></div>
+    </a>
 
-    <!-- CARD 2: Jinger Zhang -->
-    <div class="project-card reveal d1" data-category="portfolio">
-      <div class="card-img">
-        <img src="images/jinger-preview.png" alt="Jinger Zhang"
-             onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
+    <!-- CARD 3: Jinger Zhang -->
+    <a class="deck-card" data-category="portfolio" href="https://jingerzhang.com" target="_blank" aria-label="View Jinger Zhang">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <div class="deck-card-img">
+        <iframe class="deck-card-iframe" src="https://jingerzhang.com" title="Live preview of Jinger Zhang" loading="lazy" tabindex="-1"></iframe>
       </div>
-      <div class="card-body">
-        <div class="card-meta">
-          <span class="card-type">Journalist</span>
-          <span class="card-year">2026</span>
-        </div>
-        <h2 class="card-title">Jinger Zhang</h2>
-        <p class="card-desc">
-          Minimal editorial portfolio for a journalist. Focused on clean typography, 
-          article archives, and an understated aesthetic that keeps content front and center.
-        </p>
-        <div class="card-footer">
-          <div class="card-tags">
-            <span class="tag">Portfolio</span>
-            <span class="tag">Typography</span>
-          </div>
-          <a href="https://jingerzhang.com" target="_blank" class="card-link">
-            View ↗
-          </a>
-        </div>
+      <div class="deck-card-cap">
+        <span class="deck-card-title">Jinger Zhang</span>
+        <span class="deck-card-index">03 / <span class="visit">Visit ↗</span></span>
       </div>
-    </div>
+      <div class="deck-card-glare"></div>
+    </a>
 
-    <!-- ADD MORE CARDS BELOW — copy a project-card block and update content -->
-    <!-- Example placeholder card (hidden, for reference):
-    <div class="project-card" data-category="landing" style="display:none">
-      ...
-    </div>
-    -->
-    <div class="project-card reveal d3" data-category="small-business">
-  <div class="card-img">
-    <img src="images/unaspa-preview.png" alt="Una Spa NYC"
-         onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
-  </div>
-  <div class="card-body">
-    <div class="card-meta">
-      <span class="card-type">Small Business</span>
-      <span class="card-year">2026</span>
-    </div>
-    <h2 class="card-title">Una Spa NYC</h2>
-    <p class="card-desc">
-      Clean, welcoming website for a NYC spa. Focused on service listings, 
-      booking flow, and a calming aesthetic that reflects the brand.
-    </p>
-    <div class="card-footer">
-      <div class="card-tags">
-        <span class="tag">Small Business</span>
-        <span class="tag">Spa</span>
-        <span class="tag">Web Design</span>
+    <!-- CARD 4: BALLUN Studio -->
+    <a class="deck-card" data-category="e-commerce" href="https://www.ballunstudio.com/" target="_blank" aria-label="View BALLUN Studio">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <div class="deck-card-img">
+        <iframe class="deck-card-iframe" src="https://www.ballunstudio.com/" title="Live preview of BALLUN Studio" loading="lazy" tabindex="-1"></iframe>
       </div>
-      <a href="https://unaspanyc.com" target="_blank" class="card-link">View ↗</a>
-    </div>
-  </div>
-</div>
+      <div class="deck-card-cap">
+        <span class="deck-card-title">BALLUN Studio</span>
+        <span class="deck-card-index">04 / <span class="visit">Visit ↗</span></span>
+      </div>
+      <div class="deck-card-glare"></div>
+    </a>
 
-    <div class="project-card reveal d4" data-category="small-business">
-  <div class="card-img">
-    <img src="images/prontopasta-preview.png" alt="Pronto Cafe"
-         onerror="this.parentElement.innerHTML='<div class=\'card-img-placeholder\'><div class=\'placeholder-grid\'><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>'">
-  </div>
-  <div class="card-body">
-    <div class="card-meta">
-      <span class="card-type">Small Business</span>
-      <span class="card-year">2026</span>
-    </div>
-    <h2 class="card-title">Pronto Cafe</h2>
-    <p class="card-desc">
-      Website for a Hoboken, NJ Italian restaurant known for its pasta.
-      Combines appetizing food photography with online ordering and catering info.
-    </p>
-    <div class="card-footer">
-      <div class="card-tags">
-        <span class="tag">Small Business</span>
-        <span class="tag">Restaurant</span>
-        <span class="tag">Web Design</span>
+    <!-- CARD 5: Barbes -->
+    <a class="deck-card" data-category="event" href="https://barbes-website.vercel.app/" target="_blank" aria-label="View Barbes">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <div class="deck-card-img">
+        <iframe class="deck-card-iframe" src="https://barbes-website.vercel.app/" title="Live preview of Barbes" loading="lazy" tabindex="-1"></iframe>
       </div>
-      <a href="https://prontopasta.us/" target="_blank" class="card-link">View ↗</a>
-    </div>
-  </div>
-</div>
+      <div class="deck-card-cap">
+        <span class="deck-card-title">Barbès</span>
+        <span class="deck-card-index">05 / <span class="visit">Visit ↗</span></span>
+      </div>
+      <div class="deck-card-glare"></div>
+    </a>
 
     <div class="empty-state" id="empty-state">
       <div class="empty-msg">No projects in this category yet.</div>
@@ -676,10 +499,34 @@
   </div>
 
   <!-- FOOTER -->
-  <footer>
-    <div class="f-copy">© 2026 Jie Kang · itsjenniferkang.com/work</div>
-    <div class="f-logo">JK</div>
-    <a href="mailto:jenniferkang0330@gmail.com" class="f-email">jenniferkang0330@gmail.com</a>
+  <footer id="contact">
+    <span class="f-copy">© 2026 Jie Kang</span>
+    <div class="f-links">
+      <a href="https://www.instagram.com/JennKang__/" target="_blank" class="f-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+        <span class="f-pill-arr">↗</span>
+      </a>
+      <a href="https://linktr.ee/itsjenniferkang" target="_blank" class="f-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v18M4.8 7.5l14.4 9M19.2 7.5l-14.4 9"/>
+        </svg>
+        Linktree
+        <span class="f-pill-arr">↗</span>
+      </a>
+      <a href="mailto:jenniferkang0330@gmail.com" class="f-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2"/>
+          <path d="M4 7l8 6 8-6"/>
+        </svg>
+        Gmail
+        <span class="f-pill-arr">↗</span>
+      </a>
+    </div>
   </footer>
 
   <script>
@@ -689,42 +536,112 @@
       cur.style.left = e.clientX + 'px';
       cur.style.top  = e.clientY + 'px';
     });
-    document.querySelectorAll('a, button, .project-card').forEach(el => {
+    document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cur.classList.add('hov'));
       el.addEventListener('mouseleave', () => cur.classList.remove('hov'));
     });
 
-    /* ─── FILTER ─── */
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards      = document.querySelectorAll('.project-card');
-    const countEl    = document.getElementById('project-count');
-    const emptyEl    = document.getElementById('empty-state');
+    /* ─── FAN LAYOUT + AMBIENT 3D MOTION ─── */
+    const cards = document.querySelectorAll('.deck-card');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function updateCount(visible) {
-      countEl.textContent = String(visible).padStart(2, '0');
+    const state = [];
+
+    function layoutDeck() {
+      const visible = Array.from(cards).filter(c => c.style.display !== 'none');
+      const n = visible.length;
+      const spread = 7; // degrees between each card
+      state.length = 0;
+      visible.forEach((card, i) => {
+        const offset = i - (n - 1) / 2;
+        const baseRot = offset * spread;
+        const baseZ = Math.round((n - Math.abs(offset) * 2) * 10) + 1;
+        card.style.setProperty('--z', baseZ);
+        state.push({
+          el: card,
+          glare: card.querySelector('.deck-card-glare'),
+          baseRot,
+          baseZ,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.35 + Math.random() * 0.25,
+          hovered: false,
+          hoverAmount: 0,
+          pointerX: 0.5,
+          pointerY: 0.5
+        });
+      });
     }
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    layoutDeck();
 
-        const filter = btn.dataset.filter;
-        let visible = 0;
+    // global "light" position, normalized -1..1 from viewport center
+    let mouseNormX = 0, mouseNormY = 0;
+    window.addEventListener('mousemove', e => {
+      mouseNormX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseNormY = (e.clientY / window.innerHeight) * 2 - 1;
+    });
 
-        cards.forEach(card => {
-          const match = filter === 'all' || card.dataset.category === filter;
-          card.style.display = match ? '' : 'none';
-          if (match) visible++;
-        });
-
-        emptyEl.classList.toggle('visible', visible === 0);
-        updateCount(visible);
+    state.forEach(s => {
+      s.el.addEventListener('mouseenter', () => { s.hovered = true; });
+      s.el.addEventListener('mouseleave', () => { s.hovered = false; });
+      s.el.addEventListener('mousemove', e => {
+        const r = s.el.getBoundingClientRect();
+        s.pointerX = (e.clientX - r.left) / r.width;   // 0..1
+        s.pointerY = (e.clientY - r.top) / r.height;   // 0..1
       });
     });
 
-    // Init count
-    updateCount(cards.length);
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function tick(time) {
+      const t = time / 1000;
+
+      state.forEach(s => {
+        const target = s.hovered ? 1 : 0;
+        s.hoverAmount = lerp(s.hoverAmount, target, 0.12);
+        const h = s.hoverAmount;
+
+        const idleAmp = reduceMotion ? 0 : (1 - h);
+        const idleSwayZ  = Math.sin(t * s.speed + s.phase) * 1.6 * idleAmp;
+        const idleBobY   = Math.sin(t * s.speed * 0.8 + s.phase * 1.3) * 7 * idleAmp;
+
+        const rotZ = s.baseRot * (1 - h) + idleSwayZ;
+
+        // ambient global tilt ("follow the light"), replaced by a stronger local tilt on hover
+        const ambientTiltX = reduceMotion ? 0 : -mouseNormY * 5;
+        const ambientTiltY = reduceMotion ? 0 :  mouseNormX * 5;
+        const localTiltX = (0.5 - s.pointerY) * 26;
+        const localTiltY = (s.pointerX - 0.5) * 26;
+        const tiltX = lerp(ambientTiltX, localTiltX, h);
+        const tiltY = lerp(ambientTiltY, localTiltY, h);
+
+        const ty = idleBobY - h * 40;
+        const tz = h * 90;
+        const scale = 1 + h * 0.1;
+
+        s.el.style.transform =
+          `rotateZ(${rotZ.toFixed(2)}deg) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) ` +
+          `translateY(${ty.toFixed(1)}px) translateZ(${tz.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+
+        const shadowBlur = 18 + h * 42;
+        const shadowY = 12 + h * 28;
+        const shadowAlpha = (0.4 + h * 0.25).toFixed(2);
+        s.el.style.boxShadow = `0 ${shadowY.toFixed(0)}px ${shadowBlur.toFixed(0)}px rgba(0,0,0,${shadowAlpha})`;
+        s.el.style.zIndex = s.hovered ? 1000 : s.baseZ;
+
+        if (s.glare) {
+          const gx = 50 - tiltY * 2.2;
+          const gy = 50 + tiltX * 2.2;
+          s.glare.style.setProperty('--gx', gx.toFixed(1) + '%');
+          s.glare.style.setProperty('--gy', gy.toFixed(1) + '%');
+          s.glare.style.opacity = (0.12 + h * 0.4).toFixed(2);
+        }
+      });
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
 
     /* ─── SCROLL REVEAL ─── */
     const obs = new IntersectionObserver(entries => {
