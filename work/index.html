@@ -24,13 +24,11 @@
       --ink: #17160F;
       --muted: #7A7A72;
       --rule: #E2DFD5;
-      --accent: #71893D;
 
       --font-serif: 'Fraunces', serif;
       --font-mono: 'IBM Plex Mono', monospace;
 
       --shadow-card: 0 18px 40px rgba(23,22,15,.18);
-      --shadow-card-hover: 0 30px 60px rgba(23,22,15,.28);
     }
 
     *, *::before, *::after {
@@ -172,12 +170,6 @@
       color: var(--ink);
     }
 
-    .sub-hint {
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
-
     /* ─── DECK GALLERY ───────────────────────────────────────── */
     .deck-gallery {
       display: flex;
@@ -272,11 +264,27 @@
       border-top: 1px solid var(--rule);
     }
 
+    .deck-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
     .deck-card-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.35rem;
       font-weight: 900;
       color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .deck-card-desc {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
       white-space: nowrap;
     }
 
@@ -336,16 +344,6 @@
       gap: 24px;
       flex-wrap: wrap;
     }
-
-    .f-email {
-      font-size: 0.6rem;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color .2s;
-    }
-
-    .f-email:hover { color: var(--accent); }
 
     .f-pill {
       display: inline-flex;
@@ -428,73 +426,84 @@
   <div class="deck-gallery reveal" id="projects-grid">
 
     <!-- CARD 1: Una Spa NYC -->
-    <a class="deck-card" data-category="small-business" href="https://unaspanyc.com" target="_blank" aria-label="View Una Spa NYC">
+    <a class="deck-card" data-category="small-business" data-href="https://unaspanyc.com" role="link" tabindex="0" aria-label="View Una Spa NYC">
       <div class="deck-card-chrome"><span></span><span></span><span></span></div>
       <div class="deck-card-img">
         <img src="images/unaspa-preview.png" alt="Una Spa NYC">
       </div>
       <div class="deck-card-cap">
-        <span class="deck-card-title">Una Spa NYC</span>
+        <div class="deck-card-info">
+          <span class="deck-card-title">Una Spa NYC</span>
+          <span class="deck-card-desc">Spa &amp; Wellness</span>
+        </div>
         <span class="deck-card-index">01 / <span class="visit">Visit ↗</span></span>
       </div>
       <div class="deck-card-glare"></div>
     </a>
 
     <!-- CARD 2: Pronto Cafe -->
-    <a class="deck-card" data-category="small-business" href="https://prontopasta.us/" target="_blank" aria-label="View Pronto Cafe">
+    <a class="deck-card" data-category="small-business" data-href="https://prontopasta.us/" role="link" tabindex="0" aria-label="View Pronto Cafe">
       <div class="deck-card-chrome"><span></span><span></span><span></span></div>
       <div class="deck-card-img">
         <iframe class="deck-card-iframe" src="https://prontopasta.us/" title="Live preview of Pronto Cafe" loading="lazy" tabindex="-1"></iframe>
       </div>
       <div class="deck-card-cap">
-        <span class="deck-card-title">Pronto Pasta</span>
+        <div class="deck-card-info">
+          <span class="deck-card-title">Pronto Pasta</span>
+          <span class="deck-card-desc">Restaurant</span>
+        </div>
         <span class="deck-card-index">02 / <span class="visit">Visit ↗</span></span>
       </div>
       <div class="deck-card-glare"></div>
     </a>
 
     <!-- CARD 3: Jinger Zhang -->
-    <a class="deck-card" data-category="portfolio" href="https://jingerzhang.com" target="_blank" aria-label="View Jinger Zhang">
+    <a class="deck-card" data-category="portfolio" data-href="https://jingerzhang.com" role="link" tabindex="0" aria-label="View Jinger Zhang">
       <div class="deck-card-chrome"><span></span><span></span><span></span></div>
       <div class="deck-card-img">
         <iframe class="deck-card-iframe" src="https://jingerzhang.com" title="Live preview of Jinger Zhang" loading="lazy" tabindex="-1"></iframe>
       </div>
       <div class="deck-card-cap">
-        <span class="deck-card-title">Jinger Zhang</span>
+        <div class="deck-card-info">
+          <span class="deck-card-title">Jinger Zhang</span>
+          <span class="deck-card-desc">Portfolio</span>
+        </div>
         <span class="deck-card-index">03 / <span class="visit">Visit ↗</span></span>
       </div>
       <div class="deck-card-glare"></div>
     </a>
 
     <!-- CARD 4: BALLUN Studio -->
-    <a class="deck-card" data-category="e-commerce" href="https://www.ballunstudio.com/" target="_blank" aria-label="View BALLUN Studio">
+    <a class="deck-card" data-category="e-commerce" data-href="https://www.ballunstudio.com/" role="link" tabindex="0" aria-label="View BALLUN Studio">
       <div class="deck-card-chrome"><span></span><span></span><span></span></div>
       <div class="deck-card-img">
         <iframe class="deck-card-iframe" src="https://www.ballunstudio.com/" title="Live preview of BALLUN Studio" loading="lazy" tabindex="-1"></iframe>
       </div>
       <div class="deck-card-cap">
-        <span class="deck-card-title">BALLUN Studio</span>
+        <div class="deck-card-info">
+          <span class="deck-card-title">BALLUN Studio</span>
+          <span class="deck-card-desc">E-Commerce</span>
+        </div>
         <span class="deck-card-index">04 / <span class="visit">Visit ↗</span></span>
       </div>
       <div class="deck-card-glare"></div>
     </a>
 
     <!-- CARD 5: Barbes -->
-    <a class="deck-card" data-category="event" href="https://barbes-website.vercel.app/" target="_blank" aria-label="View Barbes">
+    <a class="deck-card" data-category="event" data-href="https://barbes-website.vercel.app/" role="link" tabindex="0" aria-label="View Barbes">
       <div class="deck-card-chrome"><span></span><span></span><span></span></div>
       <div class="deck-card-img">
         <iframe class="deck-card-iframe" src="https://barbes-website.vercel.app/" title="Live preview of Barbes" loading="lazy" tabindex="-1"></iframe>
       </div>
       <div class="deck-card-cap">
-        <span class="deck-card-title">Barbès</span>
+        <div class="deck-card-info">
+          <span class="deck-card-title">Barbès</span>
+          <span class="deck-card-desc">Restaurant</span>
+        </div>
         <span class="deck-card-index">05 / <span class="visit">Visit ↗</span></span>
       </div>
       <div class="deck-card-glare"></div>
     </a>
-
-    <div class="empty-state" id="empty-state">
-      <div class="empty-msg">No projects in this category yet.</div>
-    </div>
 
   </div>
 
@@ -539,6 +548,18 @@
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cur.classList.add('hov'));
       el.addEventListener('mouseleave', () => cur.classList.remove('hov'));
+    });
+
+    /* ─── CARD NAVIGATION (no native href, so no status-bar URL preview) ─── */
+    document.querySelectorAll('.deck-card[data-href]').forEach(card => {
+      const go = () => window.open(card.dataset.href, '_blank', 'noopener');
+      card.addEventListener('click', go);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          go();
+        }
+      });
     });
 
     /* ─── FAN LAYOUT + AMBIENT 3D MOTION ─── */
