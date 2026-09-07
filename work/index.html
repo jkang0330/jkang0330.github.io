@@ -54,17 +54,10 @@
     .cur {
       position: fixed;
       top: 0; left: 0;
-      width: 10px; height: 10px;
-      background: var(--ink);
-      border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width .18s, height .18s, background .18s, border-radius .18s,
-                  box-shadow .18s, border .18s, backdrop-filter .18s;
-    }
-    .cur.hov {
-      width: 46px; height: 46px;
+      width: 28px; height: 28px;
       background:
         linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(113,137,61,0.2) 35%, rgba(255,255,255,0.55) 65%, rgba(113,137,61,0.35) 100%);
       border: 1px solid rgba(255,255,255,0.75);
@@ -110,16 +103,50 @@
       margin-bottom: 0;
     }
 
+    .hero-top-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
     .hero-connect {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       font-family: var(--font-mono);
-      font-size: 0.62rem;
+      font-size: 0.68rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink);
       text-decoration: none;
+      background: none;
+      border: none;
+      padding: 0 0 4px;
+      cursor: none;
+      transition: color .2s;
+    }
+
+    .hero-connect::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--ink);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .3s ease;
+    }
+
+    .hero-connect:hover {
+      color: var(--muted);
+    }
+
+    .hero-connect:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
     }
 
     .hero-connect-arr {
@@ -133,6 +160,87 @@
 
     .hero-name {
       line-height: 0.82;
+    }
+
+    /* ─── ABOUT MODAL ────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(242,240,234,0.7);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      background: var(--paper);
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transform: translateY(16px);
+      transition: transform .25s ease;
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 36px 40px 44px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--muted);
+      cursor: none;
+      transition: color .15s;
+    }
+
+    .modal-close:hover {
+      color: var(--ink);
+    }
+
+    .modal-greet {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .modal-card-body p:not(.modal-greet) {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--muted);
     }
 
     .name-serif,
@@ -407,11 +515,28 @@
 
   <div class="cur" id="cur"></div>
 
+  <!-- ABOUT MODAL -->
+  <div class="modal-overlay" id="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-modal-greet" hidden>
+    <div class="modal-card">
+      <div class="deck-card-chrome"><span></span><span></span><span></span></div>
+      <button type="button" class="modal-close" id="about-close" aria-label="Close">×</button>
+      <div class="modal-card-body">
+        <p class="modal-greet" id="about-modal-greet">Hey, I'm Jennifer</p>
+        <p>I'm a CS grad student at Stevens and a web developer based in the NYC area. I love turning ideas into websites that are clean, functional, and actually fun to use.</p>
+        <p>I'm into the sweet spot between code + creativity — building digital experiences that look good, feel good, and make sense.</p>
+        <p>When I'm not coding, I'm probably exploring NYC, swimming, or at yet another Broadway show.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- HERO -->
   <header class="hero reveal">
     <div class="hero-top">
       <span class="eyebrow">Independent Web Developer</span>
-      <a href="#contact" class="hero-connect">Let's Connect <span class="hero-connect-arr">↗</span></a>
+      <div class="hero-top-links">
+        <button type="button" class="hero-connect" id="about-trigger" aria-haspopup="dialog" aria-controls="about-modal">About</button>
+        <a href="#contact" class="hero-connect">Let's Connect <span class="hero-connect-arr">↗</span></a>
+      </div>
     </div>
     <h1 class="hero-name">
       <span class="name-serif">Jie</span>
@@ -509,7 +634,7 @@
 
   <!-- FOOTER -->
   <footer id="contact">
-    <span class="f-copy">© 2026 Jie Kang</span>
+    <span class="f-copy">© 2026 Jie Kang | NYC</span>
     <div class="f-links">
       <a href="https://www.instagram.com/JennKang__/" target="_blank" class="f-pill">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -545,9 +670,29 @@
       cur.style.left = e.clientX + 'px';
       cur.style.top  = e.clientY + 'px';
     });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cur.classList.add('hov'));
-      el.addEventListener('mouseleave', () => cur.classList.remove('hov'));
+
+    /* ─── ABOUT MODAL ─── */
+    const aboutModal = document.getElementById('about-modal');
+    const aboutTrigger = document.getElementById('about-trigger');
+    const aboutClose = document.getElementById('about-close');
+
+    function openAboutModal() {
+      aboutModal.hidden = false;
+      requestAnimationFrame(() => aboutModal.classList.add('open'));
+    }
+
+    function closeAboutModal() {
+      aboutModal.classList.remove('open');
+      setTimeout(() => { aboutModal.hidden = true; }, 250);
+    }
+
+    aboutTrigger.addEventListener('click', openAboutModal);
+    aboutClose.addEventListener('click', closeAboutModal);
+    aboutModal.addEventListener('click', e => {
+      if (e.target === aboutModal) closeAboutModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && aboutModal.classList.contains('open')) closeAboutModal();
     });
 
     /* ─── CARD NAVIGATION (no native href, so no status-bar URL preview) ─── */
