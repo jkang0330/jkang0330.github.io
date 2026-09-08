@@ -243,6 +243,17 @@
       color: var(--muted);
     }
 
+    .modal-card-body .typing::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 2px;
+      animation: caret-blink 0.8s steps(1) infinite;
+    }
+
+    @keyframes caret-blink {
+      50% { opacity: 0; }
+    }
+
     .name-serif,
     .name-script {
       display: block;
@@ -436,7 +447,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      margin: 0 64px 48px;
+      margin-bottom: 48px;
     }
 
     .f-copy {
@@ -505,7 +516,7 @@
       .deck-gallery { padding: 40px 24px 100px; }
       .deck-card { width: 200px; margin-left: -45px; }
       .deck-card-title { font-size: 1rem; }
-      footer { margin: 0 24px 32px; padding-top: 20px; flex-direction: column; align-items: flex-start; }
+      footer { padding: 20px 24px 0; margin-bottom: 32px; flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -676,13 +687,49 @@
     const aboutTrigger = document.getElementById('about-trigger');
     const aboutClose = document.getElementById('about-close');
 
+    /* ─── ABOUT MODAL TYPING EFFECT ─── */
+    const typeEls = Array.from(aboutModal.querySelectorAll('.modal-card-body > *'));
+    const typeTexts = typeEls.map(el => el.textContent);
+    let typingToken = 0;
+
+    function typeElement(el, text, speed, token) {
+      return new Promise(resolve => {
+        let i = 0;
+        el.textContent = '';
+        el.classList.add('typing');
+        (function step() {
+          if (token !== typingToken) return resolve();
+          el.textContent = text.slice(0, i);
+          if (i >= text.length) {
+            el.classList.remove('typing');
+            return resolve();
+          }
+          i++;
+          setTimeout(step, speed);
+        })();
+      });
+    }
+
+    async function playTyping() {
+      const token = ++typingToken;
+      typeEls.forEach(el => { el.textContent = ''; el.classList.remove('typing'); });
+      for (let i = 0; i < typeEls.length; i++) {
+        if (token !== typingToken) return;
+        await typeElement(typeEls[i], typeTexts[i], 38, token);
+        await new Promise(r => setTimeout(r, 400));
+      }
+    }
+
     function openAboutModal() {
+      typeEls.forEach(el => { el.textContent = ''; el.classList.remove('typing'); });
       aboutModal.hidden = false;
       requestAnimationFrame(() => aboutModal.classList.add('open'));
+      playTyping();
     }
 
     function closeAboutModal() {
       aboutModal.classList.remove('open');
+      typingToken++;
       setTimeout(() => { aboutModal.hidden = true; }, 250);
     }
 
